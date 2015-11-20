@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Final-Project</string>
     <string name="action_settings">Settings</string>
+    <string-array name="mainMenuList">
+        <item>Food Storage</item>
+        <item>Budget</item>
+        <item>Settings</item>
+    </string-array>
 </resources>
