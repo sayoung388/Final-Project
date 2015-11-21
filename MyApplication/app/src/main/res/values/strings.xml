@@ -6,4 +6,6 @@
         <item>Budget</item>
         <item>Settings</item>
     </string-array>
+    <string name="title_activity_food_storage">FoodStorageActivity</string>
+    <string name="title_activity_add_item">AddItemActivity</string>
 </resources>

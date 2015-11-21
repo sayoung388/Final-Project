@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_add_item"
+    tools:context="com.example.syoung.final_project.AddItemActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false"
+            android:text="ADD ITEM"
+            android:textStyle="normal|bold"
+            android:gravity="center_horizontal|center_vertical"
+            android:textSize="20pt"
+            android:id="@+id/addItem" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false"
+            android:hint="Enter Item Name here"
+            android:id="@+id/editText"
+            android:paddingTop="15px"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false"
+            android:text="Date Purchased"
+            android:textStyle="normal|bold"
+            android:textSize="10pt"
+            />
+        <include layout="@layout/datelayout"
+            android:id="@+id/currentDate"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false"
+            android:text="Expiration Date"
+            android:textStyle="normal|bold"
+            android:textSize="10pt"
+            />
+        <include layout="@layout/datelayout"
+            android:id="@+id/expirationDate"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>
