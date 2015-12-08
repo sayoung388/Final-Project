@@ -29,8 +29,8 @@ public class FoodStorageActivity extends Activity implements AdapterView.OnItemC
         Toast.makeText(getApplicationContext(), ((TextView) view).getText(),
                 Toast.LENGTH_SHORT).show();
         if("Add Item".equals(((TextView) view).getText())){
-            Intent foodStorage = new Intent(getApplicationContext(), FoodStorageActivity.class);
-            startActivity(foodStorage);
+            Intent addItem = new Intent(getApplicationContext(), AddItemActivity.class);
+            startActivity(addItem);
         }
     }
 }

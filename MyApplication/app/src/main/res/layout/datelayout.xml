@@ -11,17 +11,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:textSize="20sp"
+        android:textSize="23sp"
         android:paddingRight="100px"
         android:hint="Touch here to select a date"
-        android:id="@+id/textDate"
+        android:id="@+id/textDateField"
         />
 
     <ImageButton
-        android:src="@drawable/iconCalendar"
+        android:src="@drawable/calendar"
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/dateButton"
+        android:layout_centerVertical="true"
+        android:paddingRight="10dp"
+
         />
     </RelativeLayout>
 

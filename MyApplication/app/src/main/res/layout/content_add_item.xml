@@ -25,27 +25,73 @@
             android:textStyle="normal|bold"
             android:gravity="center_horizontal|center_vertical"
             android:textSize="20pt"
-            android:id="@+id/addItem" />
+            android:id="@+id/addItemHeader" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="false"
-            android:hint="Enter Item Name here"
-            android:id="@+id/editText"
+            android:hint="Enter Item Name Here"
+            android:id="@+id/addItemTextField"
+            android:textSize="23sp"
             android:paddingTop="15px"
             />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="false"
-            android:text="Date Purchased"
+            android:text="Quantity"
             android:textStyle="normal|bold"
-            android:textSize="10pt"
+            android:textSize="12pt"
             />
-        <include layout="@layout/datelayout"
-            android:id="@+id/currentDate"
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false"
+            android:hint="Enter Item Quantity Here"
+            android:id="@+id/quantityTextField"
+            android:textSize="23sp"
+            android:paddingTop="15px"
             />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false"
+            android:text="Purchase Date"
+            android:textStyle="normal|bold"
+            android:textSize="12pt"
+            />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:textSize="23sp"
+                android:paddingRight="100px"
+                android:hint="Select a purchase date"
+                android:id="@+id/purchaseDateField"
+                android:enabled="false"
+                />
+
+            <ImageButton
+                android:src="@drawable/calendar"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/datePurchaseButton"
+                android:layout_centerVertical="true"
+                android:paddingRight="10dp"
+
+                />
+        </RelativeLayout>
+        <!--<include layout="@layout/datelayout"-->
+            <!--android:id="@+id/currentDate"-->
+            <!--/>-->
 
         <TextView
             android:layout_width="match_parent"
@@ -53,11 +99,57 @@
             android:layout_alignParentBottom="false"
             android:text="Expiration Date"
             android:textStyle="normal|bold"
-            android:textSize="10pt"
+            android:textSize="12pt"
             />
-        <include layout="@layout/datelayout"
-            android:id="@+id/expirationDate"
-            />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:textSize="23sp"
+                android:paddingRight="100px"
+                android:hint="Select an expiration date"
+                android:enabled="false"
+                android:id="@+id/expirationDateTextField"
+                />
+
+            <ImageButton
+                android:src="@drawable/calendar"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dateExpirationButton"
+                android:layout_centerVertical="true"
+                android:paddingRight="10dp"
+
+                />
+        </RelativeLayout>
+        <!--<include layout="@layout/datelayout"-->
+            <!--android:id="@+id/expirationDate"-->
+            <!--/>-->
+
+        <LinearLayout
+            android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Submit"
+                android:id="@+id/submitButton"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Clear"
+                android:id="@+id/clearButton"/>
+
+        </LinearLayout>
+        <!--<include layout="@layout/buttonlayout"-->
+            <!--android:id="@+id/buttons"-->
+            <!--/>-->
 
     </LinearLayout>
 

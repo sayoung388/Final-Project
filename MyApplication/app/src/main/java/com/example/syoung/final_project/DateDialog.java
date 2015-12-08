@@ -9,6 +9,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by syoung on 11/20/15.
@@ -16,9 +17,14 @@ import java.util.Calendar;
 public class DateDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
     EditText textDate;
-    public DateDialog(View view){
-        textDate=(EditText)view;
+
+    public DateDialog(){
+
     }
+
+//    public DateDialog(View view){
+//        textDate=(EditText)view;
+//    }
 
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
