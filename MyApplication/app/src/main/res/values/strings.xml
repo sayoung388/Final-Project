@@ -8,4 +8,6 @@
     </string-array>
     <string name="title_activity_food_storage">FoodStorageActivity</string>
     <string name="title_activity_add_item">AddItemActivity</string>
+    <string name="title_activity_find_item">FindItemActivity</string>
+    <string name="title_activity_edit_food_item">EditFoodItemActivity</string>
 </resources>

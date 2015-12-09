@@ -32,5 +32,9 @@ public class FoodStorageActivity extends Activity implements AdapterView.OnItemC
             Intent addItem = new Intent(getApplicationContext(), AddItemActivity.class);
             startActivity(addItem);
         }
+        else if("Find Items".equals(((TextView) view).getText())){
+            Intent findItem = new Intent(getApplicationContext(), FindItemActivity.class);
+            startActivity(findItem);
+        }
     }
 }
