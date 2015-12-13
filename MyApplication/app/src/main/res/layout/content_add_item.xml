@@ -44,16 +44,19 @@
             android:textStyle="normal|bold"
             android:textSize="12pt"
             />
+
+
         <EditText
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="false"
             android:hint="Enter Item Quantity Here"
             android:id="@+id/quantityTextField"
             android:textSize="23sp"
             android:paddingTop="15px"
-            android:inputType="number"
             />
+
+
 
         <TextView
             android:layout_width="match_parent"

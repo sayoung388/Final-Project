@@ -1,13 +1,22 @@
 <resources>
     <string name="app_name">Final-Project</string>
     <string name="action_settings">Settings</string>
-    <string-array name="mainMenuList">
-        <item>Food Storage</item>
-        <item>Budget</item>
-        <item>Settings</item>
+    <string-array name="measurement_array">
+        <item>ea</item>
+        <item>lb</item>
+        <item>g</item>
+        <item>gal</item>
+        <item>q</item>
+        <item>pt</item>
+        <item>l</item>
+        <item>kg</item>
+        <item>oz</item>
+        <item>ml</item>
+
     </string-array>
     <string name="title_activity_food_storage">FoodStorageActivity</string>
     <string name="title_activity_add_item">AddItemActivity</string>
     <string name="title_activity_find_item">FindItemActivity</string>
     <string name="title_activity_edit_food_item">EditFoodItemActivity</string>
+    <string name="title_activity_budget">BudgetActivity</string>
 </resources>

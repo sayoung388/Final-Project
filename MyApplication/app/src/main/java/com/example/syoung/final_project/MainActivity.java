@@ -35,7 +35,17 @@ public class MainActivity extends Activity implements OnItemClickListener {
                 Toast.LENGTH_SHORT).show();
         if("Food Storage".equals(((TextView) view).getText())){
             Intent foodStorage = new Intent(getApplicationContext(), FoodStorageActivity.class);
+            foodStorage.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            foodStorage.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(foodStorage);
+        }
+        else if("Budget".equals(((TextView) view).getText())){
+            //todo if income has not been set go to income activity/alert dialog first and have them set their income.
+
+            Intent budget = new Intent(getApplicationContext(), BudgetActivity.class);
+            budget.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            budget.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(budget);
         }
     }
 }

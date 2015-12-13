@@ -30,10 +30,14 @@ public class FoodStorageActivity extends Activity implements AdapterView.OnItemC
                 Toast.LENGTH_SHORT).show();
         if("Add Item".equals(((TextView) view).getText())){
             Intent addItem = new Intent(getApplicationContext(), AddItemActivity.class);
+            addItem.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            addItem.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(addItem);
         }
         else if("Find Items".equals(((TextView) view).getText())){
             Intent findItem = new Intent(getApplicationContext(), FindItemActivity.class);
+            findItem.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            findItem.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(findItem);
         }
     }

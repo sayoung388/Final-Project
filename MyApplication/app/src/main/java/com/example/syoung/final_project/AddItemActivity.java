@@ -19,11 +19,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 public class AddItemActivity extends Activity implements OnClickListener {
@@ -41,7 +50,7 @@ public class AddItemActivity extends Activity implements OnClickListener {
     private DatePickerDialog purchaseDatePickerDialog;
     private DatePickerDialog expirationDatePickerDialog;
     private SimpleDateFormat dateFormatter;
-
+    private ArrayList<FoodStorageDataModel> foodStorageList;
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
@@ -65,8 +74,12 @@ public class AddItemActivity extends Activity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
+        foodStorageList = new ArrayList<>();
+        loadFile();
         dateFormatter = new SimpleDateFormat("MM-dd-yyyy", Locale.US);
         foodStorageDataModel = new FoodStorageDataModel();
+
+        //foodStorageList = new ArrayList<>();
         findViewsById();
         setDateTimeField();
         setButtonField();
@@ -112,11 +125,23 @@ public class AddItemActivity extends Activity implements OnClickListener {
     }
 
     private void SubmitButtonOnClick(View v) {
+
+        if(!"".equals(itemQuantityEtxt.getText().toString())){
+            if(!quantityContainsNumber()) {
+                Toast.makeText(getApplicationContext(), "please insert a number first in quantity text",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+
         if("".equals(itemNameEtxt.getText().toString())){
             Toast.makeText(getApplicationContext(), "Insert Item Name",
                     Toast.LENGTH_SHORT).show();
         }
-        else if("".equals(itemQuantityEtxt.getText().toString())){
+        else if(checkExistingName()){
+            Toast.makeText(getApplicationContext(), "Item with this name already exists; please give it a unique name",
+                    Toast.LENGTH_SHORT).show();
+        }
+        else if("".equals(itemQuantityEtxt.getText().toString())) {
             Toast.makeText(getApplicationContext(), "Insert Item Quantity",
                     Toast.LENGTH_SHORT).show();
         }
@@ -124,19 +149,36 @@ public class AddItemActivity extends Activity implements OnClickListener {
             Toast.makeText(getApplicationContext(), "Insert Purchase Date",
                     Toast.LENGTH_SHORT).show();
         }
-        else if("".equals(expirationDateEtxt.getText().toString())){
+        else if ("".equals(expirationDateEtxt.getText().toString())){
             Toast.makeText(getApplicationContext(), "Insert Expiration Date",
                     Toast.LENGTH_SHORT).show();
         }
         else {
+            foodStorageDataModel = new FoodStorageDataModel();
             foodStorageDataModel.setItemName(itemNameEtxt.getText().toString());
             foodStorageDataModel.setItemQuantity(itemQuantityEtxt.getText().toString());
-
-            //todo store data into file
+            foodStorageDataModel.setPurchaseDate(purchaseDateEtxt.getText().toString());
+            foodStorageDataModel.setExpirationDate(expirationDateEtxt.getText().toString());
+            foodStorageList.add(foodStorageDataModel);
+            saveFileList();
             ClearButtonOnClick(v); //reset the buttons
             Toast.makeText(getApplicationContext(), "Item Submitted",
                     Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+    private boolean checkExistingName(){
+        if(foodStorageList != null && foodStorageList.size() > 0){
+            for(FoodStorageDataModel model : foodStorageList){
+                if(model.getItemName().equals(itemNameEtxt.getText().toString())){
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        return false;
     }
 
     private void setDateTimeField(){
@@ -152,7 +194,7 @@ public class AddItemActivity extends Activity implements OnClickListener {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
                 expirationDateEtxt.setText(dateFormatter.format(newDate.getTime()));
-                foodStorageDataModel.setExpirationDate(newDate.getTime());
+                foodStorageDataModel.setExpirationDateValue(newDate.getTime());
             }
         }, newCal.get(Calendar.YEAR), newCal.get(Calendar.MONTH), newCal.get(Calendar.DAY_OF_MONTH));
 
@@ -162,7 +204,7 @@ public class AddItemActivity extends Activity implements OnClickListener {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
                 purchaseDateEtxt.setText(dateFormatter.format(newDate.getTime()));
-                foodStorageDataModel.setPurchaseDate(newDate.getTime());
+                foodStorageDataModel.setPurchaseDateValue(newDate.getTime());
             }
         }, newCal.get(Calendar.YEAR), newCal.get(Calendar.MONTH), newCal.get(Calendar.DAY_OF_MONTH));
     }
@@ -176,19 +218,51 @@ public class AddItemActivity extends Activity implements OnClickListener {
         }
     }
 
-//    private void resave() {
-//        try {
-//            File file = new File(getFilesDir(), "currentLevel.txt");
-//            if (file.exists()) {
-//                file.delete();
-//            }
-//
-//            FileWriter writer = new FileWriter(file);
-//            writer.append(currentLevel);
-//            writer.flush();
-//            writer.close();
-//        } catch (IOException e) {
-//            Log.e("Save", "IOException Error: " + e);
-//        }
-//    }
+    private void saveFileList(){
+
+        File file = new File(getFilesDir(), "foodstorage.txt");
+        Gson gson = new Gson();
+        String saveList = gson.toJson(foodStorageList);
+        try {
+            FileWriter writer = new FileWriter(file);
+            BufferedWriter buf = new BufferedWriter(writer);
+            buf.write(saveList); //does this need to be append or write?
+            buf.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    protected void loadFile() {
+
+        try{
+            File file = new File(getFilesDir(), "foodstorage.txt");
+            FileReader fileReader = new FileReader(file);
+            BufferedReader reader = new BufferedReader(fileReader);
+            String jsonString = reader.readLine();
+
+            Gson gson = new Gson();
+            Type collectionType = new TypeToken<ArrayList<FoodStorageDataModel>>(){}.getType();
+            ArrayList<FoodStorageDataModel> items = gson.fromJson(jsonString, collectionType);
+
+            foodStorageList = items;
+
+        } catch (Exception e) {
+            Log.e("Persistence", "Error saving file: " + e.getMessage());
+        }
+    }
+
+
+    private boolean quantityContainsNumber(){
+
+        for(char value : itemQuantityEtxt.getText().toString().toCharArray()){
+            if(Character.isDigit(value)){
+                return true;
+            }
+            return false;
+        }
+
+        return false;
+    }
 }

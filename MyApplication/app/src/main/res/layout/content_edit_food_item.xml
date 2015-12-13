@@ -36,6 +36,7 @@
             android:id="@+id/addItemEditTextField"
             android:textSize="23sp"
             android:paddingTop="15px"
+            android:enabled="false"
             />
         <TextView
             android:layout_width="match_parent"
@@ -53,7 +54,6 @@
             android:id="@+id/quantityEditTextField"
             android:textSize="23sp"
             android:paddingTop="15px"
-            android:inputType="number"
             />
 
         <TextView

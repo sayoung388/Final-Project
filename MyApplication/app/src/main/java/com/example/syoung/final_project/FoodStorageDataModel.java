@@ -8,8 +8,28 @@ import java.util.Date;
 public class FoodStorageDataModel {
     private String itemName;
     private String itemQuantity;
-    private Date purchaseDate;
-    private Date expirationDate;
+    private String purchaseDate;
+    private String expirationDate;
+    private Date purchaseDateValue;
+    private Date expirationDateValue;
+
+    public Date getPurchaseDateValue() {
+        return purchaseDateValue;
+    }
+
+    public void setPurchaseDateValue(Date purchaseDateValue) {
+        this.purchaseDateValue = purchaseDateValue;
+    }
+
+    public Date getExpirationDateValue() {
+        return expirationDateValue;
+    }
+
+    public void setExpirationDateValue(Date expirationDateValue) {
+        this.expirationDateValue = expirationDateValue;
+    }
+
+
 
     public String getItemName() {
         return itemName;
@@ -27,19 +47,19 @@ public class FoodStorageDataModel {
         this.itemQuantity = itemQuantity;
     }
 
-    public Date getPurchaseDate() {
+    public String getPurchaseDate() {
         return purchaseDate;
     }
 
-    public void setPurchaseDate(Date purchaseDate) {
+    public void setPurchaseDate(String purchaseDate) {
         this.purchaseDate = purchaseDate;
     }
 
-    public Date getExpirationDate() {
+    public String getExpirationDate() {
         return expirationDate;
     }
 
-    public void setExpirationDate(Date expirationDate) {
+    public void setExpirationDate(String expirationDate) {
         this.expirationDate = expirationDate;
     }
 }
