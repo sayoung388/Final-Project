@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical"
+    android:paddingLeft="20px" android:paddingRight="20px">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="false"
+        android:text="Biller Name"
+        android:textStyle="normal|bold"
+        android:textSize="10pt"
+        />
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Add Biller Name Here"
+        android:id="@+id/billerName"
+        android:paddingTop="15px"
+        android:textSize="10pt"
+        android:layout_alignParentBottom="false"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="false"
+        android:text="Bill Amount"
+        android:textStyle="normal|bold"
+        android:textSize="10pt"
+        />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Add Bill Amount Here"
+        android:id="@+id/billAmount"
+        android:paddingTop="15px"
+        android:textSize="10pt"
+        android:layout_alignParentBottom="false"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="false"
+        android:text="Bill Due Date"
+        android:textStyle="normal|bold"
+        android:textSize="10pt"
+        />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:textSize="10pt"
+            android:paddingRight="25dp"
+            android:hint="Select Bill Due Date"
+            android:id="@+id/billDueDateEText"
+            />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="10px">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:id="@+id/bill_submit_button"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:id="@+id/bill_cancel_button"/>
+    </LinearLayout>
+
+</LinearLayout>

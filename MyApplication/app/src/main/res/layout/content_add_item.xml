@@ -66,7 +66,7 @@
             android:textStyle="normal|bold"
             android:textSize="12pt"
             />
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             >
@@ -77,14 +77,13 @@
                 android:layout_alignParentLeft="true"
                 android:textSize="23sp"
                 android:paddingRight="100px"
-                android:hint="Select a purchase date"
+                android:hint="Select a purchase date   "
                 android:id="@+id/purchaseDateField"
                 android:enabled="false"
                 />
 
             <ImageButton
                 android:src="@drawable/calendar"
-                android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/datePurchaseButton"
@@ -92,7 +91,7 @@
                 android:paddingRight="10dp"
 
                 />
-        </RelativeLayout>
+        </LinearLayout>
         <!--<include layout="@layout/datelayout"-->
             <!--android:id="@+id/currentDate"-->
             <!--/>-->
@@ -105,7 +104,7 @@
             android:textStyle="normal|bold"
             android:textSize="12pt"
             />
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             >
@@ -123,7 +122,6 @@
 
             <ImageButton
                 android:src="@drawable/calendar"
-                android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/dateExpirationButton"
@@ -131,7 +129,7 @@
                 android:paddingRight="10dp"
 
                 />
-        </RelativeLayout>
+        </LinearLayout>
         <!--<include layout="@layout/datelayout"-->
             <!--android:id="@+id/expirationDate"-->
             <!--/>-->

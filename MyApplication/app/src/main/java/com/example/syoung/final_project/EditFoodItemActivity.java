@@ -223,6 +223,7 @@ public class EditFoodItemActivity extends Activity implements View.OnClickListen
             if(!quantityContainsNumber()) {
                 Toast.makeText(getApplicationContext(), "please insert a number first in quantity text",
                         Toast.LENGTH_SHORT).show();
+                return;
             }
         }
 

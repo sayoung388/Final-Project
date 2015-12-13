@@ -130,6 +130,7 @@ public class AddItemActivity extends Activity implements OnClickListener {
             if(!quantityContainsNumber()) {
                 Toast.makeText(getApplicationContext(), "please insert a number first in quantity text",
                         Toast.LENGTH_SHORT).show();
+                return;
             }
         }
 

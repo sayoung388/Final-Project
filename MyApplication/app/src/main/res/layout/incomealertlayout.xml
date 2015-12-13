@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16pt"
-        android:text="Net Income"
-        />
 
     <EditText
         android:layout_width="wrap_content"
@@ -14,7 +8,7 @@
         android:hint="Enter Net Income Here"
         android:id="@+id/netincome"
         android:paddingTop="15px"
-        android:textSize="14pt"
+        android:textSize="10pt"
         android:layout_alignParentBottom="false"
         />
     <LinearLayout

@@ -62,7 +62,7 @@ public class FindItemActivity extends Activity implements SearchView.OnQueryText
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Intent editItem = new Intent(getApplicationContext(), EditFoodItemActivity.class);
-                editItem.putExtra("ItemName", ((TextView) view).getText());
+                editItem.putExtra("ItemName", ((TextView) view).getText().toString());
                 editItem.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 editItem.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(editItem);
@@ -89,7 +89,7 @@ public class FindItemActivity extends Activity implements SearchView.OnQueryText
 
         itemListView.setAdapter(new ArrayAdapter<String>(this, R.layout.menu_text, itemNamesArray));
         itemListView.setOnItemClickListener(listener);
-//
+
     }
 
     private void setSearch(){
