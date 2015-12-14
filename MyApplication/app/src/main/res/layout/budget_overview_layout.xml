@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:paddingLeft="20px" android:paddingRight="20px">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="false"
+        android:text="Net Income"
+        android:textStyle="normal|bold"
+        android:textSize="10pt"
+        />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint=""
+        android:id="@+id/billoverviewincome"
+        android:paddingTop="10px"
+        android:textSize="10pt"
+        android:layout_alignParentBottom="false"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="false"
+        android:text="Total Bill Amount"
+        android:textStyle="normal|bold"
+        android:textSize="10pt"
+        />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint=""
+        android:id="@+id/billsoverview"
+        android:paddingTop="10px"
+        android:textSize="10pt"
+        android:layout_alignParentBottom="false"
+        />
+
+    <ImageView
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="10px"
+        android:paddingBottom="5px"
+        android:layout_width="fill_parent"
+        android:layout_height="2dip"
+        android:background="#000000"
+        android:src="@android:drawable/divider_horizontal_bright" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="false"
+        android:text="Leftover Budget"
+        android:textStyle="normal|bold"
+        android:textSize="10pt"
+        />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint=""
+        android:id="@+id/leftoverincome"
+        android:paddingTop="15px"
+        android:textSize="10pt"
+        android:layout_alignParentBottom="false"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OK"
+        android:id="@+id/budgetoverviewokbutton"/>
+
+</LinearLayout>

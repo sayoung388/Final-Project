@@ -155,13 +155,13 @@ public class AddItemActivity extends Activity implements OnClickListener {
                     Toast.LENGTH_SHORT).show();
         }
         else {
-            foodStorageDataModel = new FoodStorageDataModel();
             foodStorageDataModel.setItemName(itemNameEtxt.getText().toString());
             foodStorageDataModel.setItemQuantity(itemQuantityEtxt.getText().toString());
             foodStorageDataModel.setPurchaseDate(purchaseDateEtxt.getText().toString());
             foodStorageDataModel.setExpirationDate(expirationDateEtxt.getText().toString());
             foodStorageList.add(foodStorageDataModel);
             saveFileList();
+            foodStorageDataModel = new FoodStorageDataModel();
             ClearButtonOnClick(v); //reset the buttons
             Toast.makeText(getApplicationContext(), "Item Submitted",
                     Toast.LENGTH_SHORT).show();

@@ -1,7 +1,9 @@
 package com.example.syoung.final_project;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -67,6 +69,14 @@ public class ViewEditBillActivity extends AppCompatActivity implements SearchVie
         setListAdapter();
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent budgetActivity = new Intent(getApplicationContext(), BudgetActivity.class);
+        budgetActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        budgetActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(budgetActivity);
+    }
+
 
     private void findViewsById(){
         searchView = (SearchView) findViewById(R.id.bill_search_button);
@@ -113,8 +123,8 @@ public class ViewEditBillActivity extends AppCompatActivity implements SearchVie
 
     private void setUpEditBillDialog(String selectedItem) {
         Dialog editBillDialog = new Dialog(context);
-        editBillDialog.setContentView(R.layout.add_bill_layout);
-        editBillDialog.setTitle("Add Bill");
+        editBillDialog.setContentView(R.layout.edit_bill_layout);
+        editBillDialog.setTitle("Edit Bill");
         setUpEditBillComponents(editBillDialog, selectedItem);
     }
 
@@ -126,6 +136,7 @@ public class ViewEditBillActivity extends AppCompatActivity implements SearchVie
         bill_DueDateEtxt.setInputType(InputType.TYPE_CLASS_NUMBER);
         Button bill_submit_button = (Button) editBillDialog.findViewById(R.id.bill_submit_button);
         Button bill_cancel_button = (Button) editBillDialog.findViewById(R.id.bill_cancel_button);
+        Button bill_delete_button = (Button) editBillDialog.findViewById(R.id.bill_delete_button);
 
         biller_NameEtxt.setEnabled(false); //disable so it can't be changed
         for(BillModel model : bills){
@@ -197,8 +208,8 @@ public class ViewEditBillActivity extends AppCompatActivity implements SearchVie
                     Double billAmount = Double.parseDouble(bill_AmountEtxt.getText().toString().replace("$", ""));
                     newBill.setBillAmount(billAmount);
                     newBill.setBillDueDateString(bill_DueDateEtxt.getText().toString());
-                    for(int i = 0; i < bills.size(); i++){
-                        if(bills.get(i).getBillerName().equals(newBill.getBillerName())){
+                    for (int i = 0; i < bills.size(); i++) {
+                        if (bills.get(i).getBillerName().equals(newBill.getBillerName())) {
                             bills.remove(i);
                             break;
                         }
@@ -208,6 +219,39 @@ public class ViewEditBillActivity extends AppCompatActivity implements SearchVie
                     editBillDialog.dismiss();
                 }
             }
+        });
+
+        bill_delete_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog.Builder inputAlert = new AlertDialog.Builder(v.getContext());
+                inputAlert.setTitle("Delete Bill");
+                inputAlert.setMessage("Are you sure you want to delete biller " + biller_NameEtxt.getText().toString() + "?");
+                inputAlert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        for (int i = 0; i < bills.size(); i++) {
+                            if (bills.get(i).getBillerName().equals(biller_NameEtxt.getText().toString())) {
+                                bills.remove(i);
+                                saveBill();
+                                Intent viewEditBill = new Intent(getApplicationContext(), ViewEditBillActivity.class);
+                                viewEditBill.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                viewEditBill.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(viewEditBill);
+                            }
+                        }
+                    }
+                });
+
+                inputAlert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+
+                inputAlert.show();
+                }
         });
 
         bill_cancel_button.setOnClickListener(new View.OnClickListener() {

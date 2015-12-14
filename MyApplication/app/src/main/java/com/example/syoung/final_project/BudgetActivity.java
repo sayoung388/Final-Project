@@ -5,6 +5,8 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -31,6 +33,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,6 +45,9 @@ public class BudgetActivity extends Activity implements AdapterView.OnItemClickL
     private String[] budgetMenu = {"Net Income", "Add Bill", "View/Edit Bill", "Budget Overview"};
     private ListView budgetList;
     private EditText income_textEtxt;
+    private EditText budgetOverview_incomeEtxt;
+    private EditText budgetOverview_BillsEtxt;
+    private EditText budgetOverview_TotalEtxt;
     private EditText biller_NameEtxt;
     private EditText bill_AmountEtxt;
     private EditText bill_DueDateEtxt;
@@ -68,8 +75,6 @@ public class BudgetActivity extends Activity implements AdapterView.OnItemClickL
     }
 
 
-
-
     private void setUpIncomeDialog() {
         final Dialog incomeDialog = new Dialog(context);
         incomeDialog.setContentView(R.layout.incomealertlayout);
@@ -83,6 +88,62 @@ public class BudgetActivity extends Activity implements AdapterView.OnItemClickL
         addBillDialog.setTitle("Add Bill");
         setUpAddBillComponents(addBillDialog);
 
+    }
+
+    private void setUpBudgetOverviewDialog() {
+        Dialog budgetOverview = new Dialog(context);
+        budgetOverview.setContentView(R.layout.budget_overview_layout);
+        budgetOverview.setTitle("Budget Overview");
+        setUpBudgetOverviewComponents(budgetOverview);
+
+    }
+
+    private void setUpBudgetOverviewComponents(final Dialog budgetOverviewDialog) {
+        budgetOverview_incomeEtxt = (EditText) budgetOverviewDialog.findViewById(R.id.billoverviewincome);
+        NumberFormat formatDouble = new DecimalFormat("#0.00");
+        budgetOverview_incomeEtxt.setText("$" + formatDouble.format(netIncomeAmount.getIncome()));
+        budgetOverview_incomeEtxt.setEnabled(false);
+        budgetOverview_incomeEtxt.setTextColor(Color.BLACK);
+
+        budgetOverview_BillsEtxt = (EditText) budgetOverviewDialog.findViewById(R.id.billsoverview);
+        double billTotalAmount = getBillsTotal();
+        budgetOverview_BillsEtxt.setText("$" + formatDouble.format(billTotalAmount));
+        budgetOverview_BillsEtxt.setEnabled(false);
+        budgetOverview_BillsEtxt.setTextColor(Color.BLACK);
+
+        budgetOverview_TotalEtxt = (EditText) budgetOverviewDialog.findViewById(R.id.leftoverincome);
+        budgetOverview_TotalEtxt.setText("$" + formatDouble.format(getAvailableFunds(billTotalAmount)));
+        budgetOverview_TotalEtxt.setEnabled(false);
+        budgetOverview_TotalEtxt.setTextColor(Color.BLACK);
+
+        Button okButton = (Button) budgetOverviewDialog.findViewById(R.id.budgetoverviewokbutton);
+
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                budgetOverviewDialog.dismiss();
+            }
+        });
+
+        budgetOverviewDialog.show();
+
+    }
+
+    private double getAvailableFunds(double billTotalAmount) {
+
+        double availableFunds = netIncomeAmount.getIncome() - billTotalAmount;
+        return availableFunds;
+    }
+
+    private double getBillsTotal() {
+        double billTotal = 0.00;
+
+        for(BillModel bill : bills){
+            double tempBill = bill.getBillAmount();
+            billTotal += tempBill;
+        }
+
+        return billTotal;
     }
 
     private void setUpAddBillComponents(final Dialog addBillDialog) {
@@ -211,13 +272,9 @@ public class BudgetActivity extends Activity implements AdapterView.OnItemClickL
             startActivity(editViewBill);
         }
         else if("Budget Overview".equals(((TextView) view).getText())){
-            Intent budgetOverview = new Intent(getApplicationContext(), FindItemActivity.class);
-            budgetOverview.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            budgetOverview.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(budgetOverview);
+            setUpBudgetOverviewDialog();
         }
     }
-
 
 
     private void setUpIncomeDialogComponents(final Dialog incomeDialog){
