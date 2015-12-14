@@ -49,12 +49,13 @@ public class FindItemActivity extends Activity implements SearchView.OnQueryText
         setListAdapter();
     }
 
-
+    //initializes values for the view
     private void findViewsById(){
         searchView = (SearchView) findViewById(R.id.search_button);
         itemListView = (ListView) findViewById(R.id.item_list);
     }
 
+    //initializes the listview and fills it with the values
     private void setListAdapter(){
 
         listener = new AdapterView.OnItemClickListener() {
@@ -92,6 +93,7 @@ public class FindItemActivity extends Activity implements SearchView.OnQueryText
 
     }
 
+    //sets up the search view
     private void setSearch(){
 
         searchView.setIconified(false);
@@ -175,7 +177,7 @@ public class FindItemActivity extends Activity implements SearchView.OnQueryText
             Log.e("Persistence", "Error saving file: " + e.getMessage());
         }
     }
-
+    //creates the list to display based on the search query
     @Override
     public boolean onQueryTextSubmit(String query) {
         callSearch(query);
@@ -192,6 +194,7 @@ public class FindItemActivity extends Activity implements SearchView.OnQueryText
         setListAdapter();
     }
 
+    //used so that when the text field is empty it will display all food storage items
     @Override
     public boolean onQueryTextChange(String newText) {
         if("".equals(newText)){

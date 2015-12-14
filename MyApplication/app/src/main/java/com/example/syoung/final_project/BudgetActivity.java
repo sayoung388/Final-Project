@@ -1,11 +1,9 @@
 package com.example.syoung.final_project;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -17,7 +15,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,10 +32,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Locale;
 
 public class BudgetActivity extends Activity implements AdapterView.OnItemClickListener {
 
@@ -74,7 +68,9 @@ public class BudgetActivity extends Activity implements AdapterView.OnItemClickL
         }
     }
 
-
+    /**
+     * initialize NetIncome Dialog
+     */
     private void setUpIncomeDialog() {
         final Dialog incomeDialog = new Dialog(context);
         incomeDialog.setContentView(R.layout.incomealertlayout);
@@ -82,6 +78,9 @@ public class BudgetActivity extends Activity implements AdapterView.OnItemClickL
         setUpIncomeDialogComponents(incomeDialog);
     }
 
+    /**
+     * initialize AddBill Dialog
+     */
     private void setUpAddBillDialog() {
         Dialog addBillDialog = new Dialog(context);
         addBillDialog.setContentView(R.layout.add_bill_layout);
@@ -90,6 +89,9 @@ public class BudgetActivity extends Activity implements AdapterView.OnItemClickL
 
     }
 
+    /**
+     * initialize BudgetOverView Dialog
+     */
     private void setUpBudgetOverviewDialog() {
         Dialog budgetOverview = new Dialog(context);
         budgetOverview.setContentView(R.layout.budget_overview_layout);
@@ -98,6 +100,10 @@ public class BudgetActivity extends Activity implements AdapterView.OnItemClickL
 
     }
 
+    /**
+     * initialize BudgetOverview Components
+     * @param budgetOverviewDialog
+     */
     private void setUpBudgetOverviewComponents(final Dialog budgetOverviewDialog) {
         budgetOverview_incomeEtxt = (EditText) budgetOverviewDialog.findViewById(R.id.billoverviewincome);
         NumberFormat formatDouble = new DecimalFormat("#0.00");
@@ -129,12 +135,21 @@ public class BudgetActivity extends Activity implements AdapterView.OnItemClickL
 
     }
 
+    /**
+     * calculates the available funds
+     * @param billTotalAmount
+     * @return
+     */
     private double getAvailableFunds(double billTotalAmount) {
 
         double availableFunds = netIncomeAmount.getIncome() - billTotalAmount;
         return availableFunds;
     }
 
+    /**
+     * gets the total bill amount
+     * @return
+     */
     private double getBillsTotal() {
         double billTotal = 0.00;
 
@@ -146,6 +161,10 @@ public class BudgetActivity extends Activity implements AdapterView.OnItemClickL
         return billTotal;
     }
 
+    /**
+     * intialize AddBill Dialog Components
+     * @param addBillDialog
+     */
     private void setUpAddBillComponents(final Dialog addBillDialog) {
         biller_NameEtxt = (EditText) addBillDialog.findViewById(R.id.billerName);
         bill_AmountEtxt = (EditText) addBillDialog.findViewById(R.id.billAmount);
@@ -155,7 +174,7 @@ public class BudgetActivity extends Activity implements AdapterView.OnItemClickL
         Button bill_submit_button = (Button) addBillDialog.findViewById(R.id.bill_submit_button);
         Button bill_cancel_button = (Button) addBillDialog.findViewById(R.id.bill_cancel_button);
 
-
+        //forces the bill amount fields to be a double value with two decimal places and adds a $
         bill_AmountEtxt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -174,31 +193,31 @@ public class BudgetActivity extends Activity implements AdapterView.OnItemClickL
                 if (!s.toString().matches("^\\$(\\d{1,3}(\\,\\d{3})*|(\\d+))(\\.\\d{2})?$")) {
                     //replace any none number characters with empty
                     String editTextInput = "" + s.toString().replaceAll("[^\\d]", "");
-                    StringBuilder netIncomeSB = new StringBuilder(editTextInput);
+                    StringBuilder billAmountSB = new StringBuilder(editTextInput);
 
                     //get rid of leading 0s
-                    while (netIncomeSB.length() > 3 && netIncomeSB.charAt(0) == '0') {
-                        netIncomeSB.deleteCharAt(0);
+                    while (billAmountSB.length() > 3 && billAmountSB.charAt(0) == '0') {
+                        billAmountSB.deleteCharAt(0);
                     }
 
                     //if it is smaller than 3 insert a 0 in front
                     //for decimal places
-                    while (netIncomeSB.length() < 3) {
-                        netIncomeSB.insert(0, '0');
+                    while (billAmountSB.length() < 3) {
+                        billAmountSB.insert(0, '0');
                     }
                     //insert the . where the decimal location should be
-                    netIncomeSB.insert(netIncomeSB.length() - 2, '.');
+                    billAmountSB.insert(billAmountSB.length() - 2, '.');
                     bill_AmountEtxt.removeTextChangedListener(this);
-                    bill_AmountEtxt.setText(netIncomeSB.toString());
-                    bill_AmountEtxt.setTextKeepState("$" + netIncomeSB.toString());
-                    Selection.setSelection(bill_AmountEtxt.getText(), netIncomeSB.toString().length() + 1);
+                    bill_AmountEtxt.setText(billAmountSB.toString());
+                    bill_AmountEtxt.setTextKeepState("$" + billAmountSB.toString());
+                    Selection.setSelection(bill_AmountEtxt.getText(), billAmountSB.toString().length() + 1);
                     bill_AmountEtxt.addTextChangedListener(this);
 
                 }
             }
         });
 
-
+        //checks to see if all fields are filled before submitting the data
         bill_submit_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -243,6 +262,10 @@ public class BudgetActivity extends Activity implements AdapterView.OnItemClickL
 
     }
 
+    /**
+     * checks to see if the bill name already exists
+     * @return
+     */
     private boolean checkNameAlreadyExisting() {
 
         for(BillModel bill : bills){
@@ -254,10 +277,17 @@ public class BudgetActivity extends Activity implements AdapterView.OnItemClickL
         return false;
     }
 
+    /**
+     * determines which menu to open up
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(getApplicationContext(), ((TextView) view).getText(),
-                Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), ((TextView) view).getText(),
+//                Toast.LENGTH_SHORT).show();
         if("Net Income".equals(((TextView) view).getText())){
             setUpIncomeDialog();
 
@@ -277,9 +307,17 @@ public class BudgetActivity extends Activity implements AdapterView.OnItemClickL
     }
 
 
+    /**
+     * initializes the income dialog components
+     * @param incomeDialog
+     */
     private void setUpIncomeDialogComponents(final Dialog incomeDialog){
         income_textEtxt = (EditText) incomeDialog.findViewById(R.id.netincome);
         income_textEtxt.setInputType(InputType.TYPE_CLASS_NUMBER);
+        if(netIncomeAmount != null && netIncomeAmount.getStringIncome() != null){
+            NumberFormat formatDouble = new DecimalFormat("#0.00");
+            income_textEtxt.setText("$" + formatDouble.format(netIncomeAmount.getIncome()));
+        }
         Button income_submit_button = (Button) incomeDialog.findViewById(R.id.income_submit_button);
         Button income_cancel_button = (Button) incomeDialog.findViewById(R.id.income_cancel_button);
 
@@ -294,7 +332,7 @@ public class BudgetActivity extends Activity implements AdapterView.OnItemClickL
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
             }
-
+            //Makes sure that the number is formatted with a $ and two decimal places
             @Override
             public void afterTextChanged(Editable s) {
                 //check to see if the input matches our format requirement.
@@ -362,6 +400,7 @@ public class BudgetActivity extends Activity implements AdapterView.OnItemClickL
 
     }
 
+    //Saves the income value
     private void saveIncome() {
         File file = new File(getFilesDir(), "net_income.txt");
         Gson gson = new Gson();
@@ -376,6 +415,7 @@ public class BudgetActivity extends Activity implements AdapterView.OnItemClickL
         }
     }
 
+    //Saves the bills
     private void saveBill() {
         File file = new File(getFilesDir(), "bills.txt");
         Gson gson = new Gson();

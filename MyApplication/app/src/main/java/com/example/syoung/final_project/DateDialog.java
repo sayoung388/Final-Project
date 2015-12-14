@@ -18,6 +18,7 @@ public class DateDialog extends DialogFragment implements DatePickerDialog.OnDat
 
     EditText textDate;
 
+    //CLASS ISN'T BEING USED
     public DateDialog(){
 
     }

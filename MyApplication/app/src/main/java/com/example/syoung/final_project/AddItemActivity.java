@@ -8,7 +8,6 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,7 +15,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -32,7 +30,6 @@ import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
 public class AddItemActivity extends Activity implements OnClickListener {
@@ -52,6 +49,11 @@ public class AddItemActivity extends Activity implements OnClickListener {
     private SimpleDateFormat dateFormatter;
     private ArrayList<FoodStorageDataModel> foodStorageList;
 
+    /**
+     * if you click off of the keyboard it will close it
+     * @param event
+     * @return
+     */
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -79,12 +81,15 @@ public class AddItemActivity extends Activity implements OnClickListener {
         dateFormatter = new SimpleDateFormat("MM-dd-yyyy", Locale.US);
         foodStorageDataModel = new FoodStorageDataModel();
 
-        //foodStorageList = new ArrayList<>();
         findViewsById();
         setDateTimeField();
         setButtonField();
     }
 
+    /**
+     * clear all of the view values
+     * @param v
+     */
     private void ClearButtonOnClick(View v){
         itemNameEtxt.setText("");
         itemQuantityEtxt.setText("");
@@ -92,7 +97,9 @@ public class AddItemActivity extends Activity implements OnClickListener {
         expirationDateEtxt.setText("");
     }
 
-
+    /**
+     * initializes all of the view items for the Add items view
+     */
     private void findViewsById(){
         purchaseDateEtxt = (EditText) findViewById(R.id.purchaseDateField);
         purchaseDateEtxt.setInputType(InputType.TYPE_NULL);
@@ -106,6 +113,9 @@ public class AddItemActivity extends Activity implements OnClickListener {
         itemQuantityEtxt = (EditText) findViewById(R.id.quantityTextField);
     }
 
+    /**
+     * initializes what the buttons will do in the activity
+     */
     private void setButtonField() {
 
         clearButton.setOnClickListener(new View.OnClickListener() {
@@ -124,8 +134,13 @@ public class AddItemActivity extends Activity implements OnClickListener {
 
     }
 
+    /**
+     * This is what the submit button does
+     * @param v
+     */
     private void SubmitButtonOnClick(View v) {
 
+        //make sure that there is a number first
         if(!"".equals(itemQuantityEtxt.getText().toString())){
             if(!quantityContainsNumber()) {
                 Toast.makeText(getApplicationContext(), "please insert a number first in quantity text",
@@ -134,6 +149,7 @@ public class AddItemActivity extends Activity implements OnClickListener {
             }
         }
 
+        //makes sure all of the fields are filled before it will submit the data
         if("".equals(itemNameEtxt.getText().toString())){
             Toast.makeText(getApplicationContext(), "Insert Item Name",
                     Toast.LENGTH_SHORT).show();
@@ -168,7 +184,7 @@ public class AddItemActivity extends Activity implements OnClickListener {
         }
     }
 
-
+    //makes sure that there isn't already an item with this name
     private boolean checkExistingName(){
         if(foodStorageList != null && foodStorageList.size() > 0){
             for(FoodStorageDataModel model : foodStorageList){
@@ -182,6 +198,7 @@ public class AddItemActivity extends Activity implements OnClickListener {
         return false;
     }
 
+    //sets up the dialog to choose a date value for expiration and purchase date
     private void setDateTimeField(){
         purchaseDateEtxt.setOnClickListener(this);
         expirationDateEtxt.setOnClickListener(this);
@@ -219,6 +236,9 @@ public class AddItemActivity extends Activity implements OnClickListener {
         }
     }
 
+    /**
+     * saves the data for the food storage list
+     */
     private void saveFileList(){
 
         File file = new File(getFilesDir(), "foodstorage.txt");
@@ -234,7 +254,9 @@ public class AddItemActivity extends Activity implements OnClickListener {
         }
     }
 
-
+    /**
+     * loads the food storage list
+     */
     protected void loadFile() {
 
         try{
@@ -255,6 +277,10 @@ public class AddItemActivity extends Activity implements OnClickListener {
     }
 
 
+    /**
+     * checks to make sure that the quantity text values starts with a number
+     * @return
+     */
     private boolean quantityContainsNumber(){
 
         for(char value : itemQuantityEtxt.getText().toString().toCharArray()){

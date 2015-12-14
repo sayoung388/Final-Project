@@ -167,24 +167,24 @@ public class ViewEditBillActivity extends AppCompatActivity implements SearchVie
                 if (!s.toString().matches("^\\$(\\d{1,3}(\\,\\d{3})*|(\\d+))(\\.\\d{2})?$")) {
                     //replace any none number characters with empty
                     String editTextInput = "" + s.toString().replaceAll("[^\\d]", "");
-                    StringBuilder netIncomeSB = new StringBuilder(editTextInput);
+                    StringBuilder billAmountSB = new StringBuilder(editTextInput);
 
                     //get rid of leading 0s
-                    while (netIncomeSB.length() > 3 && netIncomeSB.charAt(0) == '0') {
-                        netIncomeSB.deleteCharAt(0);
+                    while (billAmountSB.length() > 3 && billAmountSB.charAt(0) == '0') {
+                        billAmountSB.deleteCharAt(0);
                     }
 
                     //if it is smaller than 3 insert a 0 in front
                     //for decimal places
-                    while (netIncomeSB.length() < 3) {
-                        netIncomeSB.insert(0, '0');
+                    while (billAmountSB.length() < 3) {
+                        billAmountSB.insert(0, '0');
                     }
                     //insert the . where the decimal location should be
-                    netIncomeSB.insert(netIncomeSB.length() - 2, '.');
+                    billAmountSB.insert(billAmountSB.length() - 2, '.');
                     bill_AmountEtxt.removeTextChangedListener(this);
-                    bill_AmountEtxt.setText(netIncomeSB.toString());
-                    bill_AmountEtxt.setTextKeepState("$" + netIncomeSB.toString());
-                    Selection.setSelection(bill_AmountEtxt.getText(), netIncomeSB.toString().length() + 1);
+                    bill_AmountEtxt.setText(billAmountSB.toString());
+                    bill_AmountEtxt.setTextKeepState("$" + billAmountSB.toString());
+                    Selection.setSelection(bill_AmountEtxt.getText(), billAmountSB.toString().length() + 1);
                     bill_AmountEtxt.addTextChangedListener(this);
 
                 }

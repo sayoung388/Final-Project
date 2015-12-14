@@ -13,7 +13,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,16 +27,14 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+
 
 
 public class MainActivity extends Activity implements OnItemClickListener {
 
     private ListView mainListView;
-    private LinearLayout mainLinearLayout;
     private Context context = this;
     private EditText settingsEtxt;
     private ListView expiringItemsListView;
@@ -49,22 +46,25 @@ public class MainActivity extends Activity implements OnItemClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //mainLinearLayout = (LinearLayout)findViewById(R.id.mainMenuLayout);
         mainListView = (ListView)findViewById(R.id.listView);
         mainListView.setAdapter(new ArrayAdapter<String>(this, R.layout.menu_text, mainListArray));
         mainListView.setOnItemClickListener(this);
         loadFoodStorage();
         loadSettings();
 
-
+        //checks to see if you have set up the expiration date range
         if(settings != null && !"".equals(settings)){
             foodStorageExpirationNotification();
         }
     }
 
+    /**
+     * generates a list of items that are about to expire
+     */
     private void foodStorageExpirationNotification() {
         String[] expiringItemsList;
         ArrayList<String> expiringItemArrayList = new ArrayList<>();
+        loadFoodStorage();
         for(FoodStorageDataModel item : foodStorageList) {
             if(compareDate(item)){
                 expiringItemArrayList.add(item.getItemName());
@@ -78,6 +78,10 @@ public class MainActivity extends Activity implements OnItemClickListener {
         setUpExpiringItemsDialog(expiringItemsList);
     }
 
+    /**
+     * initializes the expiring items Dialog
+     * @param expiringItemList
+     */
     private void setUpExpiringItemsDialog(String[] expiringItemList) {
         Dialog expiringItemsDialog = new Dialog(context);
         expiringItemsDialog.setContentView(R.layout.expiringitemslayout);
@@ -85,6 +89,11 @@ public class MainActivity extends Activity implements OnItemClickListener {
         setUpExpiringItemsComponents(expiringItemsDialog, expiringItemList);
     }
 
+    /**
+     * initializes the components for the expiring items dialog
+     * @param expiringItemsDialog
+     * @param expiringItemList
+     */
     private void setUpExpiringItemsComponents(final Dialog expiringItemsDialog, String[] expiringItemList) {
         expiringItemsListView = (ListView) expiringItemsDialog.findViewById(R.id.expiring_item_list);
         expiringItemsListView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1 ,expiringItemList));
@@ -100,6 +109,11 @@ public class MainActivity extends Activity implements OnItemClickListener {
         expiringItemsDialog.show();
     }
 
+    /**
+     * checks to see if the date of a food item is within the tolerance
+     * @param item
+     * @return
+     */
     private boolean compareDate(FoodStorageDataModel item){
         Calendar currentDate = Calendar.getInstance();
         int settingsDate = Integer.parseInt(settings);
@@ -112,10 +126,17 @@ public class MainActivity extends Activity implements OnItemClickListener {
         return false;
     }
 
+    /**
+     * checks to see which menu item is pressed and then moves them to the new activity or dialog
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(getApplicationContext(), ((TextView) view).getText(),
-                Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), ((TextView) view).getText(),
+//                Toast.LENGTH_SHORT).show();
         if("Food Storage".equals(((TextView) view).getText())){
             Intent foodStorage = new Intent(getApplicationContext(), FoodStorageActivity.class);
             foodStorage.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -136,6 +157,9 @@ public class MainActivity extends Activity implements OnItemClickListener {
         }
     }
 
+    /**
+     * initialize the dialog for setting the range you want to see if something is going to expire
+     */
     private void setUpSettingsDialog() {
         Dialog settingsDialog = new Dialog(context);
         settingsDialog.setContentView(R.layout.settingslayout);
@@ -143,15 +167,26 @@ public class MainActivity extends Activity implements OnItemClickListener {
         setUpSettingsComponents(settingsDialog);
     }
 
+    /**
+     * initializes the components on the settings dialog
+     * @param settingsDialog
+     */
     private void setUpSettingsComponents(final Dialog settingsDialog) {
         settingsEtxt = (EditText) settingsDialog.findViewById(R.id.settingsDateRange);
         settingsEtxt.setInputType(InputType.TYPE_CLASS_NUMBER);
+        //if it isn't null then it will place the value in the text field
+        if(settings != null && !"".equals(settings)){
+            settingsEtxt.setText(settings);
+        }
+
+        //sets the buttons and what they do if they are pressed
         Button setButton = (Button) settingsDialog.findViewById(R.id.settingsSetButton);
         Button cancelButton = (Button) settingsDialog.findViewById(R.id.settingsCancelButton);
 
         setButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //if there is no value in the textbox it will make you set one before it will set it.
                 if("".equals(settingsEtxt.getText().toString())){
                     Toast.makeText(getApplicationContext(), "Enter the number of days in advance you want to know if something is going to expire.",
                             Toast.LENGTH_SHORT).show();
@@ -174,6 +209,10 @@ public class MainActivity extends Activity implements OnItemClickListener {
         settingsDialog.show();
     }
 
+
+    /**
+     * saves the settings values
+     */
     private void saveSettings(){
 
         File file = new File(getFilesDir(), "settings.txt");
@@ -190,6 +229,9 @@ public class MainActivity extends Activity implements OnItemClickListener {
     }
 
 
+    /**
+     * loads the food storage values
+     */
     protected void loadFoodStorage() {
 
         try{
@@ -209,6 +251,9 @@ public class MainActivity extends Activity implements OnItemClickListener {
         }
     }
 
+    /**
+     * loads settings value
+     */
     protected void loadSettings() {
 
         try{

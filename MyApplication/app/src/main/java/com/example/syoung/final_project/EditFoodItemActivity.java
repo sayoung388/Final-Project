@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.InputType;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -74,6 +73,7 @@ public class EditFoodItemActivity extends Activity implements View.OnClickListen
 
     }
 
+    //initializes the values in the edit text fields
     private void setTextValues(String itemName){
         for(FoodStorageDataModel itemValue: foodStorageList){
             if(itemValue.getItemName().equals(itemName)){
@@ -87,7 +87,7 @@ public class EditFoodItemActivity extends Activity implements View.OnClickListen
     }
 
 
-
+    //initialize layout values
     private void findViewsById(){
         purchaseDateEtxt = (EditText) findViewById(R.id.purchaseEditDateField);
         purchaseDateEtxt.setInputType(InputType.TYPE_NULL);
@@ -102,7 +102,7 @@ public class EditFoodItemActivity extends Activity implements View.OnClickListen
         itemQuantityEtxt = (EditText) findViewById(R.id.quantityEditTextField);
     }
 
-
+    //initializes the date time fields
     private void setDateTimeField(){
         purchaseDateEtxt.setOnClickListener(this);
         expirationDateEtxt.setOnClickListener(this);
@@ -140,7 +140,7 @@ public class EditFoodItemActivity extends Activity implements View.OnClickListen
         }
     }
 
-
+    //loads the food storage values
     protected void loadFileData() {
         try{
             File file = new File(getFilesDir(), "foodstorage.txt");
@@ -158,6 +158,7 @@ public class EditFoodItemActivity extends Activity implements View.OnClickListen
         }
     }
 
+    //initializes the button fields
     private void setButtonField() {
 
         clearButton.setOnClickListener(new View.OnClickListener() {
@@ -182,12 +183,14 @@ public class EditFoodItemActivity extends Activity implements View.OnClickListen
 
     }
 
+    //designates what the clear button does
     private void clearButtonOnClick(View v){
         itemQuantityEtxt.setText("");
         purchaseDateEtxt.setText("");
         expirationDateEtxt.setText("");
     }
 
+    //designates what the delete button does
     private void deleteButtonOnClick(View v) {
         final AlertDialog.Builder inputAlert = new AlertDialog.Builder(v.getContext());
         inputAlert.setTitle("Delete Item");
@@ -217,6 +220,7 @@ public class EditFoodItemActivity extends Activity implements View.OnClickListen
         inputAlert.show();
     }
 
+    //designates what the update button does
     private void updateButtonOnClick(View v) {
 
         if(!"".equals(itemQuantityEtxt.getText().toString())){
@@ -260,7 +264,7 @@ public class EditFoodItemActivity extends Activity implements View.OnClickListen
         }
     }
 
-
+    //save the updated foodstorage list
     private void saveFileList(){
 
         File file = new File(getFilesDir(), "foodstorage.txt");
@@ -276,6 +280,7 @@ public class EditFoodItemActivity extends Activity implements View.OnClickListen
         }
     }
 
+    //makes sure that the quantity text box has a number first
     private boolean quantityContainsNumber(){
 
         for(char value : itemQuantityEtxt.getText().toString().toCharArray()){
@@ -288,6 +293,7 @@ public class EditFoodItemActivity extends Activity implements View.OnClickListen
         return false;
     }
 
+    //turns off the keyboard when you click out of it
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
