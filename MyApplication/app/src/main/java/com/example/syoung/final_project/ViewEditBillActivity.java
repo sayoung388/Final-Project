@@ -61,9 +61,12 @@ public class ViewEditBillActivity extends AppCompatActivity implements SearchVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_edit_bill);
+        bills = new ArrayList<>();
         loadBills();
         partialBills = new ArrayList<>();
-        partialBills = bills;
+        if(bills != null) {
+            partialBills = bills;
+        }
         findViewsById();
         setSearch();
         setListAdapter();
@@ -310,7 +313,9 @@ public class ViewEditBillActivity extends AppCompatActivity implements SearchVie
     @Override
     public boolean onQueryTextChange(String newText) {
         if("".equals(newText)){
-            partialBills = bills;
+            if(bills != null) {
+                partialBills = bills;
+            }
             setListAdapter();
         }
         return true;

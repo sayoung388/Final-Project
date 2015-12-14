@@ -65,17 +65,23 @@ public class MainActivity extends Activity implements OnItemClickListener {
         String[] expiringItemsList;
         ArrayList<String> expiringItemArrayList = new ArrayList<>();
         loadFoodStorage();
-        for(FoodStorageDataModel item : foodStorageList) {
-            if(compareDate(item)){
-                expiringItemArrayList.add(item.getItemName());
+        if(foodStorageList != null && settings != null && !"".equals(settings)) {
+            for (FoodStorageDataModel item : foodStorageList) {
+                if (compareDate(item)) {
+                    expiringItemArrayList.add(item.getItemName());
+                }
             }
-        }
-        expiringItemsList = new String[expiringItemArrayList.size()];
-        for(int i = 0; i < expiringItemArrayList.size(); i++){
-            expiringItemsList[i] = expiringItemArrayList.get(i);
-        }
+            expiringItemsList = new String[expiringItemArrayList.size()];
+            for (int i = 0; i < expiringItemArrayList.size(); i++) {
+                expiringItemsList[i] = expiringItemArrayList.get(i);
+            }
 
-        setUpExpiringItemsDialog(expiringItemsList);
+            setUpExpiringItemsDialog(expiringItemsList);
+        }
+        else {
+            Toast.makeText(getApplicationContext(), "You must first choose your date range and add items to your food storage",
+                Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**

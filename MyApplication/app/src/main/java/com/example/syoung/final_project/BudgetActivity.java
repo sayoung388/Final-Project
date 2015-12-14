@@ -59,6 +59,7 @@ public class BudgetActivity extends Activity implements AdapterView.OnItemClickL
         budgetList = (ListView)findViewById(R.id.budgetListView);
         budgetList.setAdapter(new ArrayAdapter<String>(this, R.layout.menu_text, budgetMenu));
         budgetList.setOnItemClickListener(this);
+        bills = new ArrayList<>();
         newBill = new BillModel();
         loadIncome();
         loadBills();
@@ -302,7 +303,13 @@ public class BudgetActivity extends Activity implements AdapterView.OnItemClickL
             startActivity(editViewBill);
         }
         else if("Budget Overview".equals(((TextView) view).getText())){
-            setUpBudgetOverviewDialog();
+            if(bills != null) {
+                setUpBudgetOverviewDialog();
+            } else
+            {
+                Toast.makeText(getApplicationContext(), "There are no bills to create the overview",
+                Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
